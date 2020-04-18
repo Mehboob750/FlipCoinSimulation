@@ -47,27 +47,29 @@ tailHeadCount=0;
 tailTailCount=0;
 for (( iteration=1; iteration<=numberOfTimes; iteration++ ))
 do
-   flipCoin=$((RANDOM%5));
+   flipCoin=$((RANDOM%4));
    ((counter++));
-   if (( $flipCoin == $headHead ))
-   then
-      doubletDictionary["$counter"]="Head-Head";
-      (( headHeadCount++ ));
-   elif (( $flipCoin == $headTail ))
-	then
-      doubletDictionary["$counter"]="Head-Tail";
-      (( headTailCount++ ));
-  elif (( $flipCoin == $tailHead ))
-   then
-      doubletDictionary["$counter"]="Tail-Head";
-      (( tailHeadCount++ ));
+   case $flipCoin in
+		$headHead )
+      	doubletDictionary["$counter"]="Head-Head";
+      	(( headHeadCount++ ))
+			;;
+   	$headTail )
+      	doubletDictionary["$counter"]="Head-Tail";
+      	(( headTailCount++ ))
+			;;
+      $tailHead )
+      	doubletDictionary["$counter"]="Tail-Head";
+      	(( tailHeadCount++ ))
+			;;
 
-  elif (( $flipCoin == $tailTail ))
-   then
-      doubletDictionary["$counter"]="Tail-Tail";
-      (( tailTailCount++ ));
-
-	fi
+   	$tailTail )
+	      doubletDictionary["$counter"]="Tail-Tail";
+   	   (( tailTailCount++ ))
+			;;
+		* )
+				echo "Invalid selection";
+	esac
 done
 
 echo ${doubletDictionary[@]};
@@ -88,5 +90,95 @@ resultArray[((arrayIteration++))]=${tailHeadPercent};
 
 tailTailPercent=$(awk "BEGIN {printf $tailTailCount/$numberOfTimes}");
 resultArray[((arrayIteration++))]=${tailTailPercent};
+echo ${resultArray[@]};
+
+#Triplet Combination
+declare -A tripletDictionary;
+headHeadHead=0;
+headHeadTail=1;
+headTailHead=2;
+tailHeadHead=3;
+tailTailTail=4;
+tailTailHead=5;
+tailHeadTail=6;
+headTailTail=7;
+
+headHeadHeadCount=0;
+headHeadTailCount=0;
+headTailHeadCount=0;
+tailHeadHeadCount=0;
+tailTailTailCount=0;
+tailTailHeadCount=0;
+tailHeadTailCount=0;
+headTailTailCount=0;
+
+for (( iteration=1; iteration<=numberOfTimes; iteration++ ))
+do
+   flipCoin=$((RANDOM%8));
+   ((counter++));
+   case $flipCoin in
+		$headHeadHead )
+      	tripletDictionary["$counter"]="Head-Head-Head";
+      	(( headHeadHeadCount++ ))
+			;;
+     $headHeadTail )
+			tripletDictionary["$counter"]="Head-Head-Tail";
+      	(( headHeadTailCount++ ))
+			;;
+ 	  $headTailHead )
+     		tripletDictionary["$counter"]="Head-Tail-Head";
+      	(( headTailHeadCount++ ))
+			;;
+     $tailHeadHead )
+      	tripletDictionary["$counter"]="Tail-Head-Head";
+      	(( tailHeadHeadCount++ ))
+			;;
+     $tailTailTail )
+      	tripletDictionary["$counter"]="Tail-Tail-Tail";
+      	(( tailTailTailCount++ ))
+			;;
+     $tailTailHead )
+      	tripletDictionary["$counter"]="Tail-Tail-Head";
+      	(( tailTailHeadCount++ ))
+			;;
+
+     $tailHeadTail )
+      	tripletDictionary["$counter"]="Tail-Head-Tail";
+      	(( tailHeadTailCount++ ))
+			;;
+     $headTailTail )
+      	tripletDictionary["$counter"]="Head-Tail-Tail";
+      	(( headTailTailCount++ ))
+			;;
+	  * )
+			echo "Invalid selection";
+   esac
+done
+
+echo ${tripletDictionary[@]};
+
+headHeadHeadPercent=$(awk "BEGIN {printf $headHeadHeadCount/$numberOfTimes}");
+resultArray[((arrayIteration++))]=${headHeadHeadPercent};
+
+headHeadTailPercent=$(awk "BEGIN {printf $headHeadTailCount/$numberOfTimes}");
+resultArray[((arrayIteration++))]=${headHeadTailPercent};
+
+headTailHeadPercent=$(awk "BEGIN {printf $headTailHeadCount/$numberOfTimes}");
+resultArray[((arrayIteration++))]=${headTailHeadPercent};
+
+tailHeadHeadPercent=$(awk "BEGIN {printf $tailHeadHeadCount/$numberOfTimes}");
+resultArray[((arrayIteration++))]=${tailHeadHeadPercent};
+
+tailTailTailPercent=$(awk "BEGIN {printf $tailTailTailCount/$numberOfTimes}");
+resultArray[((arrayIteration++))]=${tailTailTailPercent};
+
+tailTailHeadPercent=$(awk "BEGIN {printf $tailTailHeadCount/$numberOfTimes}");
+resultArray[((arrayIteration++))]=${tailTailHeadPercent};
+
+tailHeadTailPercent=$(awk "BEGIN {printf $tailHeadTailCount/$numberOfTimes}");
+resultArray[((arrayIteration++))]=${tailHeadTailPercent};
+
+headTailTailPercent=$(awk "BEGIN {printf $headTailTailCount/$numberOfTimes}");
+resultArray[((arrayIteration++))]=${headTailTailPercent};
 
 echo ${resultArray[@]};
