@@ -182,3 +182,22 @@ headTailTailPercent=$(awk "BEGIN {printf $headTailTailCount/$numberOfTimes}");
 resultArray[((arrayIteration++))]=${headTailTailPercent};
 
 echo ${resultArray[@]};
+
+#Sort the result in decending order
+limit=${#resultArray[@]};
+
+for (( iteration=0; iteration<limit; iteration++ ))
+do
+        for (( iteration1=iteration+1; iteration1<limit; iteration1++ ))
+        do
+                if [[ ${resultArray[iteration]} < ${resultArray[iteration1]} ]]
+                then
+                        temp=${resultArray[iteration]};
+                        resultArray[((iteration))]=${resultArray[iteration1]};
+                        resultArray[((iteration1))]=$temp;
+                fi
+        done
+done
+
+echo "After sorting :" ${resultArray[@]};
+
