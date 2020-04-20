@@ -1,13 +1,15 @@
 #!/bin/bash -x
-#Singlet Combination
 declare -A singletDictionary;
+declare -A resultDictionary;
 read -p "Enter how many time you want to flip the coin: " numberOfTimes;
+
+#Singlet Combination
 head=0;
 tail=1;
 headCount=0;
 tailCount=0;
 counter=0;
-arrayIteration=0;
+#arrayIteration=0;
 for (( iteration=1; iteration<=numberOfTimes; iteration++ ))
 do
 	flipcoin=$((RANDOM%2));
@@ -28,14 +30,18 @@ echo "Singlet Combination: "
 #echo "Tail percentage : " `$(awk "BEGIN {printf $tailCount/$numberOfTimes}")`;
 
 headPercent=$(awk "BEGIN {printf $headCount/$numberOfTimes}");
-resultArray[((arrayIteration++))]=${headPercent};
+#resultArray[((arrayIteration++))]=${headPercent};
+resultDictionary["Head"]=${headPercent};
+
 
 tailPercent=$(awk "BEGIN {printf $tailCount/$numberOfTimes}");
-resultArray[((arrayIteration++))]=${tailPercent};
-echo ${resultArray[@]};
+#resultArray[((arrayIteration++))]=${tailPercent};
+resultDictionary["Tail"]=${tailPercent};
 
+#echo ${resultArray[@]};
+echo ${resultDictionary[@]};
 
-#Doublet combination
+#------------------Doublet combination----------------------
 declare -A doubletDictionary;
 headHead=0;
 headTail=1;
@@ -80,19 +86,25 @@ echo "Doublet Combination: "
 #echo "Tail-Tail percentage : "$(awk "BEGIN {printf $tailTailCount/$numberOfTimes}");
 
 headHeadPercent=$(awk "BEGIN {printf $headHeadCount/$numberOfTimes}");
-resultArray[((arrayIteration++))]=${headHeadPercent};
+#resultArray[((arrayIteration++))]=${headHeadPercent};
+resultDictionary["Head-Head"]=${headHeadPercent};
 
 headTailPercent=$(awk "BEGIN {printf $headTailCount/$numberOfTimes}");
-resultArray[((arrayIteration++))]=${headTailPercent};
+#resultArray[((arrayIteration++))]=${headTailPercent};
+resultDictionary["Head-Tail"]=${headTailPercent};
 
 tailHeadPercent=$(awk "BEGIN {printf $tailHeadCount/$numberOfTimes}");
-resultArray[((arrayIteration++))]=${tailHeadPercent};
+#resultArray[((arrayIteration++))]=${tailHeadPercent};
+resultDictionary["Tail-Head"]=${tailHeadPercent};
 
 tailTailPercent=$(awk "BEGIN {printf $tailTailCount/$numberOfTimes}");
-resultArray[((arrayIteration++))]=${tailTailPercent};
-echo ${resultArray[@]};
+#resultArray[((arrayIteration++))]=${tailTailPercent};
+resultDictionary["Tail-Tail"]=${tailTailPercent};
 
-#Triplet Combination
+#echo ${resultArray[@]};
+echo ${resultDictionary[@]};
+
+#-----------------------------Triplet Combination---------------------------
 declare -A tripletDictionary;
 headHeadHead=0;
 headHeadTail=1;
@@ -158,46 +170,64 @@ done
 echo ${tripletDictionary[@]};
 
 headHeadHeadPercent=$(awk "BEGIN {printf $headHeadHeadCount/$numberOfTimes}");
-resultArray[((arrayIteration++))]=${headHeadHeadPercent};
+#resultArray[((arrayIteration++))]=${headHeadHeadPercent};
+resultDictionary["Head-Head-Head"]=${headHeadHeadPercent};
 
 headHeadTailPercent=$(awk "BEGIN {printf $headHeadTailCount/$numberOfTimes}");
-resultArray[((arrayIteration++))]=${headHeadTailPercent};
+#resultArray[((arrayIteration++))]=${headHeadTailPercent};
+resultDictionary["Head-Head-Tail"]=${headHeadTailPercent};
+
 
 headTailHeadPercent=$(awk "BEGIN {printf $headTailHeadCount/$numberOfTimes}");
-resultArray[((arrayIteration++))]=${headTailHeadPercent};
+#resultArray[((arrayIteration++))]=${headTailHeadPercent};
+resultDictionary["Head-Tail-Head"]=${headTailHeadPercent};
+
 
 tailHeadHeadPercent=$(awk "BEGIN {printf $tailHeadHeadCount/$numberOfTimes}");
-resultArray[((arrayIteration++))]=${tailHeadHeadPercent};
+#resultArray[((arrayIteration++))]=${tailHeadHeadPercent};
+resultDictionary["Tail-Head-Head"]=${tailHeadHeadPercent};
 
 tailTailTailPercent=$(awk "BEGIN {printf $tailTailTailCount/$numberOfTimes}");
-resultArray[((arrayIteration++))]=${tailTailTailPercent};
+#resultArray[((arrayIteration++))]=${tailTailTailPercent};
+resultDictionary["Tail-Tail-Tail"]=${tailTailTailPercent};
 
 tailTailHeadPercent=$(awk "BEGIN {printf $tailTailHeadCount/$numberOfTimes}");
-resultArray[((arrayIteration++))]=${tailTailHeadPercent};
+#resultArray[((arrayIteration++))]=${tailTailHeadPercent};
+resultDictionary["Tail-Tail-Head"]=${tailTailHeadPercent};
 
 tailHeadTailPercent=$(awk "BEGIN {printf $tailHeadTailCount/$numberOfTimes}");
-resultArray[((arrayIteration++))]=${tailHeadTailPercent};
+#resultArray[((arrayIteration++))]=${tailHeadTailPercent};
+resultDictionary["Tail-Head-Tail"]=${tailHeadTailPercent};
 
 headTailTailPercent=$(awk "BEGIN {printf $headTailTailCount/$numberOfTimes}");
-resultArray[((arrayIteration++))]=${headTailTailPercent};
+#resultArray[((arrayIteration++))]=${headTailTailPercent};
+resultDictionary["Head-Tail-Tail"]=${headTailTailPercent};
 
-echo ${resultArray[@]};
+#echo ${resultArray[@]};
+echo ${resultDictionary[@]};
 
 #Sort the result in decending order
-limit=${#resultArray[@]};
+#limit=${#resultArray[@]};
 
-for (( iteration=0; iteration<limit; iteration++ ))
+#for (( iteration=0; iteration<limit; iteration++ ))
+#do
+#        for (( iteration1=iteration+1; iteration1<limit; iteration1++ ))
+#        do
+#                if [[ ${resultArray[iteration]} < ${resultArray[iteration1]} ]]
+#                then
+#                        temp=${resultArray[iteration]};
+#                        resultArray[((iteration))]=${resultArray[iteration1]};
+#                        resultArray[((iteration1))]=$temp;
+#                fi
+#        done
+#done
+
+#echo "After sorting :" ${resultArray[@]};
+
+echo ${resultDictionary[@]};
+echo ${!resultDictionary[@]};
+
+for k in "${!resultDictionary[@]}"
 do
-        for (( iteration1=iteration+1; iteration1<limit; iteration1++ ))
-        do
-                if [[ ${resultArray[iteration]} < ${resultArray[iteration1]} ]]
-                then
-                        temp=${resultArray[iteration]};
-                        resultArray[((iteration))]=${resultArray[iteration1]};
-                        resultArray[((iteration1))]=$temp;
-                fi
-        done
-done
-
-echo "After sorting :" ${resultArray[@]};
-
+	echo $k ' - ' ${resultDictionary["$k"]};
+done | sort -rn -k3
