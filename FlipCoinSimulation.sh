@@ -231,3 +231,5 @@ for k in "${!resultDictionary[@]}"
 do
 	echo $k ' - ' ${resultDictionary["$k"]};
 done | sort -rn -k3
+
+
